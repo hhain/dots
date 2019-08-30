@@ -1,0 +1,269 @@
+# vim: set syntax=conf:
+
+# static internal variables and settings
+set $laptop eDP-1
+set $left_display DP-3
+set $right_display DP-4
+
+# bind switch for laptop lid toggeling
+bindswitch lid:on output $laptop disable
+bindswitch lid:off output $laptop enable
+
+# Check current laptop lid state and turn eDP-1 off, if closed
+exec_always cat /proc/acpi/button/lid/LID/state | awk '{ print $2 }' | grep -q 'closed' && swaymsg output $laptop disable
+
+# Font Setting
+font pango:Myriad Pro 14
+
+# set background image
+set $background ~/Pictures/wallpapers/sleepy_darkm1.png
+
+# Set display positions
+output $left_display pos 0 0 res 2560x1440
+output $right_display pos 2560 0 res 2560x1440
+output $laptop
+
+# Set background for all monitors
+output * bg $background fill
+
+# Sway variables
+set $mod Mod4
+set $lock ~/.config/sway/lock && sleep 1
+set $passly ~/.config/sway/passly
+set $term kitty
+set $filemanager caja
+set $browser firefox-nightly
+
+# Early clipboard manager start - Somehow wayland/sways clipboard/clipmanager has issues with detached windows/passmenu
+exec wl-copy &
+exec clipman -d
+
+# Custom dmenu_path/passmenu-fzf-kitty based launcher
+set $modal kitty --config \"$HOME/.config/kitty/modal.config\" --class modal --detach
+
+set $menu $modal sh -c \"dmenu_path | fzf | xargs -r swaymsg exec\"
+
+set $pmenu $modal sh -c $passly
+
+# Make those launchers float
+for_window [app_id="modal"] focus, floating enabled, border pixel 1
+
+# Screenshot tool(s), the 'grim slurper'
+set $screenshot grim ~/Pictures/screenshots/scrn-$(date +"%y-%m%-d%T%H:%M").png
+set $screenclip slurp | grim -g - ~/Pictures/screenshots/scrn-$(date +"%y-%m%-d%T%H:%M").png
+
+# start menu
+bindsym $mod+d exec $menu
+bindsym $mod+Shift+d exec $pmenu
+
+# start filemanager
+bindsym $mod+Shift+f exec $filemanager
+
+# start browser
+bindsym $mod+Shift+g exec $browser
+
+# start terminal
+bindsym $mod+Return exec $term
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# Start more windows floating.
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Waybar launch script
+exec_always ~/.config/waybar/waybar.sh
+
+# split in horizontal orientation
+bindsym $mod+x splitv
+
+# split in vertical orientation
+bindsym $mod+v splith
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# make floating window sticky
+bindsym $mod+Shift+s sticky toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+bindsym $mod+g focus child
+
+# Scratchpad
+bindsym $mod+Shift+BackSpace move scratchpad
+bindsym $mod+backslash scratchpad show
+
+# Window borders
+default_border pixel 1
+default_floating_border normal
+hide_edge_borders smart
+
+#smart_borders on
+smart_gaps on
+gaps inner 10
+
+bindsym $mod+Print exec $screenclip
+bindsym $mod+Shift+Print exec $screenshot
+
+# Automatic back and forth when switching workspace
+workspace_auto_back_and_forth yes
+
+# Define names for default workspaces for which we configure key bindings later on.
+# We use variables to avoid repeating the names in multiple places.
+set $ws1 "1  "
+set $ws2 "2  "
+set $ws3 "3  "
+set $ws4 "4  "
+set $ws5 "5  "
+set $ws6 "6  "
+set $ws7 "7  "
+set $ws8 "8  "
+set $ws9 "9  "
+set $ws10 "10  "
+
+# Set distinct 'start' workspaces on external/internal displays
+workspace $ws1 output $left_display $laptop
+workspace $ws2 output $right_display
+
+# jump to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+# move distinct programs to their corresponding workspaces
+assign [class = "weechat"] 9
+for_window [class = "Signal"] move to scratchpad
+assign [class = "Skype"] 9
+for_window [class="Spotify"] move to workspace $ws10
+
+# Don't switch focus to freshly activated window but mark as urgent
+focus_on_window_activation urgent
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+set $mode_system   (l)ock,   (e)xit, 鈴 (s)uspend,   (r)eboot,   (S)hutdown
+mode "$mode_system" {
+    bindsym l exec $lock, mode "default"
+    bindsym e exec swaymsg exit, mode "default"
+    bindsym s exec $lock, systemctl suspend, mode "default"
+    bindsym r exec systemctl reboot, mode "default"
+    bindsym Shift+s exec systemctl poweroff -i, mode "default"
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+# Shortcuts
+bindsym $mod+Shift+q kill
+bindsym $mod+p mode "$mode_system"
+bindsym $mod+r mode "resize"
+bindsym $mod+Shift+c reload
+bindsym $mod+m exec plaympv
+bindsym $mod+Tab workspace prev_on_output
+bindsym $mod+Shift+Tab workspace next_on_output
+
+# Dismiss Mako Messages
+bindsym Control+Space exec makoctl dismiss
+bindsym Control+Shift+Space exec makoctl dismiss --all
+
+# Idle configuration
+exec swayidle \
+    timeout 350 'exec $lock' \
+    timeout 700 'swaymsg "output * dpms off"' \
+    after-resume 'swaymsg "output * dpms on"' \
+    before-sleep 'exec $lock'
+
+#Always apply gnome theme settings
+set $gnome-schema org.gnome.desktop.interface
+
+exec_always {
+    gsettings set $gnome-schema gtk-theme 'Zukitre-dark'
+    gsettings set $gnome-schema icon-theme 'Tela purple'
+    gsettings set $gnome-schema cursor-theme 'Vanilla-DMZ'
+    gsettings set $gnome-schema font-name 'Myriad Pro'
+    gsettings set $gnome-schema monospace-font-name 'InputMonoNarrow Nerd Font'
+}
+
+exec mako
+exec env XDG_CURRENT_DESKTOP=Unity signal-desktop

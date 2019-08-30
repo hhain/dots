@@ -1,0 +1,61 @@
+{
+  "suggest.timeout": 3000,
+  "suggest.triggerAfterInsertEnter": false,
+  "suggest.minTriggerInputLength": 2,
+  "suggest.noselect": false,
+  "suggest.snippetIndicator": "🌟",
+  "suggest.maxCompleteItemCount": 10,
+  "diagnostic.errorSign": "✖︎",
+  "diagnostic.warningSign": "✔︎",
+  "diagnostic.infoSign": ">>",
+  "suggest.triggerCompletionWait": 150,
+  "diagnostic.displayByAle": false,
+  "git.enableGutters": true,
+  "git.addGlameToVirtualText": true,
+  "git.addGlameToBufferVar": true,
+  "git.virtualTextPrefix": "  >>> ",
+  "git.addedSign.text":"▎",
+  "git.changedSign.text":"▎",
+  "git.removedSign.text":"▏",
+  "git.topRemovedSign.text": "▔",
+  "git.changeRemovedSign.text": "▋",
+  "codeLens.enable": false,
+  "coc.preferences.rootPatterns": [
+    ".vim",
+    ".git",
+    ".hg",
+    ".projections.json",
+    ".envrc"
+  ],
+  "coc.preferences.hoverTarget": "float",
+  "coc.preferences.enableFloatHighlight": true,
+  "coc.preferences.colorSupport": true,
+  "coc.preferences.snippets.enable": true,
+  "coc.preferences.snippetStatusText": "Ⓢ ",
+  "diagnostic.virtualText": true,
+  "diagnostic.checkCurrentLine": true,
+  "signature.target": "float",
+  "snippets.snipmate.author": "Henrik Hain",
+  "python.venvPath": "/home/henrik/.pyenv",
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "python.linting.prospectorEnabled": false,
+  "python.linting.banditEnabled": false,
+  "python.jediEnabled": false,
+  "python.linting.mypyEnabled": false,
+  "python.linting.lintOnSave": true,
+  "python.autoUpdateLanguageServer": true,
+  "python.formatting.provider": "black",
+  "languageserver": {
+   "digestif": {
+      "command": "digestif",
+      "filetypes": ["plaintex", "context"]
+    },
+   "efm": {
+        /* go get github.com/mattn/efm-langserver/cmd/efm-langserver */
+        /* yarn global add markdownlint-cli */
+      "command": "efm-langserver",
+      "filetypes": ["vim", "markdown", "yaml"]
+    }
+  }
+}

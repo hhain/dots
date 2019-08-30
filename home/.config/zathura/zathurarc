@@ -1,0 +1,38 @@
+# Base16 papercolor/papercolor-light
+# Author: papercolor/papercolor-light
+set font "PragmataPro Regular 10.75"
+set database "sqlite"
+
+
+set default-bg                  "#dcdcc2"
+set default-fg                  "#af0000"
+
+set statusbar-fg                "#f0f0d6"
+set statusbar-bg                "#008700"
+
+set inputbar-bg                 "#dcdcc2"
+set inputbar-fg                 "#333322"
+
+set notification-bg             "#dcdcc2"
+set notification-fg             "#333322"
+
+set notification-error-bg       "#dcdcc2"
+set notification-error-fg       "#808077"
+
+set notification-warning-bg     "#dcdcc2"
+set notification-warning-fg     "#808077"
+
+set highlight-color             "#d70087"
+set highlight-active-color      "#c64d1f"
+
+set completion-bg               "#af0000"
+set completion-fg               "#c64d1f"
+
+set completion-highlight-fg     "#333322"
+set completion-highlight-bg     "#c64d1f"
+
+set recolor-lightcolor          "#dcdcc2"
+set recolor-darkcolor           "#005f87"
+
+set recolor                     "false"
+set recolor-keephue             "false"

@@ -1,0 +1,134 @@
+{
+    "layer": "bottom",
+    "position": "top",
+    "height": 31,
+    "modules-left": ["sway/workspaces", "sway/mode", "custom/spotify"],
+    "modules-center": ["custom/distribution", "clock", "custom/weather"],
+    "modules-right": ["custom/signal", "tray", "cpu", "memory", "custom/storage","", "pulseaudio", "custom/bluetooth", "network", "backlight", "battery", "idle_inhibitor"],
+    "sway/mode": {
+        "format": " <span style=\"italic\">{}</span>"
+    },
+    "sway/workspaces": {
+        "format": "{name}",
+        "disable-scroll-wraparound": true,
+        "enable-bar-scroll": false,
+        "smooth-scrolling-threshold": 30
+    },
+    "sway/window": {
+        "max-length": 80,
+        "tooltip": false
+    },
+    "custom/distribution": {
+        "format": " ",
+        "tooltip": false,
+        "format-alt-click": "click-right",
+        "format-alt": " <span style=\"italic\">{}</span>",
+        "exec": "echo 'Swaylicious by Henrik Hain'"
+    },
+    "custom/bluetooth": {
+        "format": "{}",
+        "tooltip": false,
+        "interval": 10,
+        "exec": "~/.config/waybar/modules/bluey.sh",
+        "on-click": "kitty --config ~/.config/kitty/modal.config --class modal --detach -e bluetoothctl"
+    },
+    "custom/signal": {
+        "format": "  ",
+        "format-alt": "  ",
+        "tooltip": false,
+        "format-alt-click": "click-right",
+        "on-click": "call signal window from scratchpad"
+    },
+    "clock": {
+        "format": "{: %a %d %b -  %H:%M}",
+        "tooltip": false
+    },
+    "battery": {
+        "bat": "BAT0",
+        "format": "{icon}{capacity}%",
+        "format-icons": [" ", " ", " ", " ", " "],
+        "format-charging": " {capacity}%",
+        "interval": 30,
+        "states": {
+            "warning": 25,
+            "critical": 10
+        },
+        "tooltip": false
+    },
+    "network": {
+        "format": "{icon}",
+        "format-alt": "{icon} {ipaddr}/{cidr}",
+        "format-alt-click": "click-right",
+        "format-icons": {
+            "wifi": ["", "" ,""],
+            "ethernet": [""],
+            "disconnected": [""]
+        },
+        "on-click": "kitty --config ~/.config/kitty/modal.config --class modal --detach -e nmtui",
+        "tooltip": false
+    },
+    "pulseaudio": {
+        "format": "{icon} {volume}",
+        "format-alt": "{icon} {volume}",
+        "format-alt-click": "click-right",
+        "format-muted": "",
+        "format-icons": {
+            "phone": ["🎧", "🎧", "🎧"],
+            "default": ["", " ", " "]
+        },
+        "scroll-step": 10,
+        "on-click": "kitty --config ~/.config/kitty/modal.config --class modal --detach -e pulsemixer",
+        "tooltip": false
+    },
+    "custom/spotify": {
+        "interval": 2,
+        "return-type": "json",
+        "exec": "~/.config/waybar/modules/spotify.sh",
+        "exec-if": "pgrep spotify",
+        "escape": true
+    },
+    "custom/storage": {
+        "format": " {}",
+        "format-alt": " {percentage}%",
+        "format-alt-click": "click-right",
+        "return-type": "json",
+        "interval": 60,
+        "exec": "~/.config/waybar/modules/storage.sh"
+    },
+    "backlight": {
+        "format": "{icon}",
+/*        "format-alt": "{icon} {percent}%",*/
+        "format-alt-click": "click-right",
+        "format-icons": ["","","",""],
+        "on-scroll-down": "light -A 1",
+        "on-scroll-up": "light -U 1"
+    },
+    "custom/weather": {
+        "format": "{}",
+        "format-alt": "{alt} {}",
+        "format-alt-click": "click-right",
+        "interval": 220,
+        "return-type": "json",
+        "exec": "~/.config/waybar/modules/weather.sh Mannheim"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": " ",
+            "deactivated": " "
+        },
+        "tooltip": false
+    },
+/*    "tray": {*/
+/*        "icon-size": 18,*/
+/*	    "spacing": 8*/
+/*    },*/
+    "cpu": {
+        "tooltip": false,
+        "format": " {}%"
+    },
+    "memory": {
+        "tooltip": false,
+        "format": " {}%"
+    }
+}

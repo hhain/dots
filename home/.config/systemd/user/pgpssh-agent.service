@@ -1,0 +1,10 @@
+[Unit]
+Description="Gnupg ssh agent systemd user service"
+
+[Service]
+Type=simple
+Environment=SSH_AUTH_SOCK=%t/S.gpg-agent.ssh
+ExecStart=/usr/bin/gpgconf --launch gpg-agent
+
+[Install]
+WantedBy=default.target

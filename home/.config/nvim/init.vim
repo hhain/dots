@@ -1,0 +1,9 @@
+set shell=/usr/bin/zsh
+runtime! partials/plugins.vim
+runtime! partials/settings.vim
+runtime! partials/colorscheme.vim
+runtime! partials/autocomplete.vim
+runtime! partials/defx.vim
+runtime! partials/mappings.vim
+runtime! partials/abbreviations.vim
+runtime! partials/fzf.vim
